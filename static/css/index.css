@@ -32,6 +32,11 @@
     background-size: cover;
 }
 
+.space-container {
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
 .btn.btn-dark {
     background: black;
     border-radius: 16px;
