@@ -16,9 +16,11 @@ def search():
     model = request.form.get('model')
     year = request.form.get('year')
     cars = db.collection(u'users').stream()
+    car_ids = []
     for car in cars:
-        print(car.to_dict())
-        print(u'{} => {}'.format(car.collection('garage').Model, "test"))
+        car_ids.append(car.id)
+    for car_id in card_ids:
+        cars_user = db.collection(u'users')
     return "test"
 
 
