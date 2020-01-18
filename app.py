@@ -15,12 +15,13 @@ def search():
     make = request.form.get('make')
     model = request.form.get('model')
     year = request.form.get('year')
-    cars = db.collection(u'users').stream()
-    car_ids = []
-    for car in cars:
-        car_ids.append(car.id)
-    for car_id in card_ids:
-        cars_user = db.collection(u'users')
+    users = db.collection(u'users').stream()
+    user_ids = []
+    for user in users:
+        user_ids.append(user.id)
+    for user_id in user_ids:
+        # user = db.collection(u'users').do
+        print()
     return "test"
 
 
