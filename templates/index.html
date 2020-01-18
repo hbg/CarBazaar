@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<div id="car-container">
-
-</div>
+    <div id="car-container">
+        <div class="container">
+            <div class="text-light heading-text">Car shopping made easy</div>
+            <form action="/search" class="form-inline" method="post">
+                <input class="form-control mr-sm-2 heading-input" type="text" placeholder="Make" aria-label="Make" id="make">
+                <input class="form-control mr-sm-2 heading-input" type="text" placeholder="Model" aria-label="Model" id="model">
+                <input class="form-control mr-sm-2 heading-input" type="text" placeholder="Year" aria-label="Year" id="year">
+                <button class="btn btn-dark" id="heading-search-button" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

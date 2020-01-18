@@ -1,19 +1,42 @@
 .navbar {
-    height: 100px !important;
+    height: 80px !important;
     font-size: 16pt;
     font-weight: 600 !important;
-    background: #ffcd16!important;
+    background: #47515b !important;
+}
+
+.heading-text {
+    padding-top: calc(40vh - 160px) !important;
+    font-weight: 800;
+    font-size: 60pt;
+}
+
+.heading-input {
+    margin-top: 16px;
+    width: calc(33% - 34px - 1rem) !important;
+    padding: 8px 16px;
+    border-radius: 16px;
+    font-weight: 600;
+}
+#heading-search-button {
+    width: 100px;
+    padding: 8px 16px;
+    text-align: center;
 }
 
 #car-container {
-    height: calc(100vh - 100px);
+    height: calc(100vh - 80px);
     background-color: #f5ebbf;
+    background-image: url("/static/images/banner.jpg");
+    background-position: center center;
+    background-size: cover;
 }
 
 .btn.btn-dark {
     background: black;
     border-radius: 16px;
     font-weight: 800;
+    height: 100%;
     text-transform: uppercase;
     color: white !important;
     padding: 8px 16px !important;
