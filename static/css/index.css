@@ -4,3 +4,8 @@
     font-weight: 600 !important;
     background: #ffcd16!important;
 }
+
+#car-container {
+    height: calc(100vh - 100px);
+    background-color: #b08d0e;
+}
