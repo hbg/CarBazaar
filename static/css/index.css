@@ -7,5 +7,14 @@
 
 #car-container {
     height: calc(100vh - 100px);
-    background-color: #b08d0e;
+    background-color: #f5ebbf;
+}
+
+.btn.btn-dark {
+    background: black;
+    border-radius: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: white !important;
+    padding: 8px 16px !important;
 }
