@@ -41,7 +41,7 @@ def retrieve_mini_post(username, uuid):
     pth = post_details['Model'].path
     make, model = get_mk_ml(pth)
 
-    return render_template("car_mini.html", details=post_details, make=make, model=model, history=post_details['history'])
+    return render_template("car_mini.html", details=post_details, make=make, model=model, history=post_details['history'], logged_in=logged_in(), page_name="Car")
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -253,7 +253,7 @@ def edit(vin):
                 }]
             }, merge=True)
         return redirect('/')
-    return render_template("edit_vin.html", vin=vin)
+    return render_template("edit_vin.html", vin=vin, logged_in=logged_in(), page_name="Edit History")
 
 
 
