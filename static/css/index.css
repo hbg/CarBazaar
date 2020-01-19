@@ -5,6 +5,11 @@
     background: #47515b !important;
     color: white !important;
     height: auto !important;
+
+}
+
+.navbar-brand {
+    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000 !important;
 }
 
 .text-white {
