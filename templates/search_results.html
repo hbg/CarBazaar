@@ -2,6 +2,9 @@
 {% block content %}
     <div class="space-container container">
         <div class="row">
+            {% if cars|length == 0 %}
+                <span class="header-text">No results found.</span>
+            {% endif %}
             {% for car in cars %}
                 <div class="col col-sm-4">
                     <div class="card">
