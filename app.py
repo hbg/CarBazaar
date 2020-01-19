@@ -223,6 +223,8 @@ def add_car():
 
 @app.route('/edit/<vin>', methods=['GET', 'POST'])
 def edit(vin):
+    if not logged_in():
+        return redirect('/login')
     if request.method == "POST":
         description = request.form.get("description")
         img = request.form.get("image")

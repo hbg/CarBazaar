@@ -80,6 +80,15 @@
     box-shadow: 4px 4px 0 #f1f1f1;
 }
 
+.btn {
+    box-shadow: 8px 8px 0 #f1f1f1;
+}
+
+.btn:hover {
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #f1f1f1;
+}
+
 .card-img-top-main {
     border-radius: 32px;
 }
