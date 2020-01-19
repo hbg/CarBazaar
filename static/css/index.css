@@ -11,6 +11,11 @@
     font-size: 60pt;
 }
 
+.header-text {
+    font-weight: 800 !important;
+    font-size: 48pt !important;
+}
+
 .heading-input {
     margin-top: 16px;
     width: calc(33% - 34px - 1rem) !important;

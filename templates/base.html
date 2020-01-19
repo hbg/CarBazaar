@@ -18,7 +18,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="btn btn-dark nav-link" href="/login">Login</a>
+                <a class="btn btn-dark nav-link" href="/login">{% if logged_in %}Logout{% else %}Login{% endif %}</a>
             </li>
         </ul>
     </div>
