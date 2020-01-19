@@ -72,7 +72,6 @@ def login():
 
         try:
             user = auth.get_user_by_email(request.form['email'])
-
             logged_user = user
             session['email'] = user.email
             return redirect('/garage')
@@ -180,10 +179,11 @@ def logout():
 
 @app.route('/garage')
 def garage():
+    global logged_user
     if not logged_in():
         return redirect('/login')
 
-    return render_template("home.html", logged_in=logged_in(), cars=get_cars_from_user(session.get('email', logged_user.get('email'))),
+    return render_template("home.html", logged_in=logged_in(), cars=get_cars_from_user(session.get('email', 'harrisbegca@gmail.com')),
                            page_name="My Garage")
 
 
@@ -217,7 +217,7 @@ def add_car():
         return redirect('/garage')
     elif not logged_user:
         return redirect('/login')
-    return render_template("add_car.html", logged_in=logged_in(), cars=get_cars_from_user(session.get('email', logged_user.get('email'))),
+    return render_template("add_car.html", logged_in=logged_in(), cars=get_cars_from_user(session.get('email', 'harrisbegca@gmail.com')),
                            page_name="Add Car")
 
 
