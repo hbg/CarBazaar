@@ -191,7 +191,7 @@ def add_car():
         make = request.form.get("make")
         model = request.form.get("model")
         vin = request.form.get("vin")
-        owner_exp = request.form.get("owner_experience")
+        owner_exp = request.form.get("owner-experience")
         price = request.form.get("price")
         image = request.form.get("image")
         selling = request.form.get("sellingTF")
