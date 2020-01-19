@@ -151,7 +151,7 @@ def search():
             else:
                 thumbnail = image
             print(mk, ml)
-            if make_g.upper() in mk.upper() and model_g.upper() in ml.upper():
+            if make_g.upper() in mk.upper() and model_g.upper() in ml.upper() and car.to_dict().get("selling"):
                 cars.append({
                     'user': user_id,
                     "make": mk,
@@ -160,7 +160,7 @@ def search():
                     "history": car.to_dict()['history'],
                     "id": uuid,
                     "price": car.to_dict()['price'],
-                    "selling": True
+                    "selling": car.to_dict()['selling']
                 })
     return render_template("search_results.html", cars=cars, logged_in=logged_in(), page_name="Explore")
 
@@ -205,7 +205,6 @@ def add_car():
         uuid = str(uuid4())
         db.collection("users").document(session['email']).set({})
         db.collection("users").document(session['email']).collection("garage").document(uuid).set({})
-        print(selling)
         db.collection("users").document(session['email']).collection("garage").document(uuid).set({
             "price": price,
             "owner_exp": owner_exp,
