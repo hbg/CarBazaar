@@ -5,13 +5,14 @@
             {% for car in cars %}
                 <div class="col col-sm-4">
                     <div class="card">
+                        <!--
                         <div class="card-header">
-                            {{ car.user }}
+                            {#  car.user #}
                         </div>
+                        -->
                         <img class="card-img-top" alt="Card image cap" src="{{ car.image }}">
                         <div class="card-body">
-                            <h5 class="card-title">{{ car.make }}</h5>
-                            <p class="card-text">{{ car.model }}</p>
+                            <h5 class="card-title">{{ car.make }} {{ car.model }}</h5>
                             <a href="#" class="btn btn-dark">→</a>
                         </div>
                     </div>

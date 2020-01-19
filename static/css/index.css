@@ -10,6 +10,11 @@
     color: white !important;
 }
 
+.mini-card {
+    border-radius: 32px;
+    height: calc(100vh - 200px) !important;
+}
+
 .alert {
     border-radius: 16px;
     background: #ff4850;

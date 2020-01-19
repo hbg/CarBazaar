@@ -38,6 +38,17 @@ def logged_in():
 def get_mk_ml(s):
     return s.split('cars/')[1].split('/models/')[0], s.split('cars/')[1].split('/models/')[1]
 
+def retrieve_document_reference(path):
+    ''
+    return ''
+
+@app.route('/users/<username>/<uuid>')
+def retrieve_mini_post(username, uuid):
+    db = firestore.client()
+    pst = db.collection("users").document(username).collection("garage").document(uuid).get()
+    post_details = pst.to_dict()
+    return render_template("car_mini.html", details=post_details)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
