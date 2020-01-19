@@ -13,6 +13,7 @@
 
 .mini-card {
     border-radius: 32px;
+    border: 0 !important;
 }
 
 .full-width {

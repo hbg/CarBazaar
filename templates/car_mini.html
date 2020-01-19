@@ -4,15 +4,16 @@
 
         <div class="card mini-card">
             <div class="space-container container">
-                <div class="row">
-                    <div class="col col-sm-12">
+                <div class="row justify-content-md-center">
+                    <div class="col col-sm-6">
                         <img src="{{ details.user_images.0 }}" width="100%"/>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col col-sm-12">
+                <div class="row justify-content-md-center">
+                    <div class="col col-sm-6">
                         <h1 class="header-text">{{ make }} {{ model }}</h1>
-                        <h2 class="disabled">${{ details.price }}</h2>
+                        <h2 class="disabled">${{ details.price }} <span class="badge badge-secondary">{% if details.selling %}For Sale{% else %}Not For Sale{% endif %}</span></h2>
+                        <p>{{ details.owner_exp }}</p>
                     </div>
                 </div>
             </div>

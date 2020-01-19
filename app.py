@@ -10,7 +10,6 @@ from gcloud import storage
 from firebase_admin import firestore, auth
 
 app = Flask(__name__)
-Scss(app, static_dir='static')
 
 logged_user = None
 cred = credentials.Certificate('carbazaar-32cea-ec7ddc537cbe.json')
@@ -33,6 +32,7 @@ def logged_in():
 def get_mk_ml(s):
     return s.split('cars/')[1].split('/models/')[0], s.split('cars/')[1].split('/models/')[1]
 
+
 @app.route('/users/<username>/<uuid>')
 def retrieve_mini_post(username, uuid):
     db = firestore.client()
@@ -40,6 +40,7 @@ def retrieve_mini_post(username, uuid):
     post_details = pst.to_dict()
     pth = post_details['Model'].path
     make, model = get_mk_ml(pth)
+
     return render_template("car_mini.html", details=post_details, make=make, model=model)
 
 
@@ -137,6 +138,7 @@ def search():
             mk = str(mk)
             ml = str(ml)
             image = car.to_dict()['user_images'][0]
+            uuid = car.id
             if 'gs://' in image:
                 image = image.split('gs://carbazaar-32cea.appspot.com/')[1]
                 print(image)
@@ -152,7 +154,8 @@ def search():
                     "make": mk,
                     "model": ml,
                     "image": thumbnail,
-                    "history": car.to_dict()['History']
+                    "history": car.to_dict()['History'],
+                    "id": uuid
                 })
         print(cars)
         return render_template("search_results.html", cars=cars, logged_in=logged_in(), page_name="Explore")
@@ -201,7 +204,7 @@ def add_car():
             "user_images": [image],
             "selling": selling,
             "Model": db.collection("cars").document(make).collection("models").document(model),
-            "History": []
+            "history": []
         })
         return redirect('/garage')
     elif not logged_user:
