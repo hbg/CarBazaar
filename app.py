@@ -6,11 +6,16 @@ from google.auth.transport import requests
 from firebase_admin import credentials
 from gcloud import storage
 from flask_session import Session
-
+import redis, os
 from firebase_admin import firestore, auth
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '9281anq2Z'
+redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
+redis = redis.from_url(redis_url)
+SESSION_REDIS = redis
+app.config.from_object(__name__)
+Session(app)
 logged_user = None
 cred = credentials.Certificate('carbazaar-32cea-ec7ddc537cbe.json')
 fbapp = firebase_admin.initialize_app(cred, {
@@ -20,9 +25,6 @@ client = storage.Client(credentials=cred)
 storage_client = storage.Client.from_service_account_json('carbazaar-32cea-ec7ddc537cbe.json')
 
 auth_request = requests.Request()
-VINS = [
-
-]
 
 
 def logged_in():
@@ -116,7 +118,8 @@ def get_cars_from_user(email):
             "images": images,
             "history": car.to_dict()['history'],
             "id": uuid,
-            "price": car.to_dict()['price']
+            "price": car.to_dict()['price'],
+            "selling": car.to_dict()['selling'] == "Yes"
         })
     return cars
 
@@ -208,7 +211,7 @@ def add_car():
             "price": price,
             "owner_exp": owner_exp,
             "user_images": [image],
-            "selling": selling,
+            "selling": selling == "Yes",
             "Model": db.collection("cars").document(make).collection("models").document(model),
             "history": [],
             "vin": vin
