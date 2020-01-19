@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.secret_key = '9281anq2Z'
 app.config.from_object(__name__)
 sess = Session()
-logged_user = None
+logged_user = {'email':''}
 cred = credentials.Certificate('carbazaar-32cea-ec7ddc537cbe.json')
 fbapp = firebase_admin.initialize_app(cred, {
     'storageBucket': 'carbazaar-32cea.appspot.com',
@@ -173,7 +173,7 @@ def home():
 @app.route('/logout')
 def logout():
     global logged_user
-    logged_user = None
+    logged_user = {'email':''}
     session.clear()
     return redirect('/')
 
