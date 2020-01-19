@@ -3,6 +3,28 @@
     font-size: 16pt;
     font-weight: 600 !important;
     background: #47515b !important;
+    color: white !important;
+}
+
+.text-white {
+    color: white !important;
+}
+
+.alert {
+    border-radius: 16px;
+    background: #ff4850;
+    color: white;
+    font-weight: 500;
+}
+
+.card-header {
+    background: black;
+    font-weight: 600;
+    color: white;
+}
+
+.form-group label {
+    font-weight: 600 !important;
 }
 
 .heading-text {
@@ -18,7 +40,7 @@
 
 .heading-input {
     margin-top: 16px;
-    width: calc(33% - 34px - 1rem) !important;
+    width: calc(50% - 17px - 1.5rem) !important;
     padding: 8px 16px;
     border-radius: 16px;
     font-weight: 600;

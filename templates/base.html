@@ -17,8 +17,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav ml-auto">
+            {% if logged_in %}
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/garage">GARAGE</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
-                <a class="btn btn-dark nav-link" href="/login">{% if logged_in %}Logout{% else %}Login{% endif %}</a>
+                <a class="btn btn-dark nav-link" href="/{% if logged_in %}logout{% else %}login{% endif %}">{% if logged_in %}Logout{% else %}Login{% endif %}</a>
             </li>
         </ul>
     </div>
