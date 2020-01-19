@@ -189,7 +189,7 @@ def garage():
     if not logged_in():
         return redirect('/login')
 
-    return render_template("home.html", logged_in=logged_in(), cars=get_cars_from_user(session['email']),
+    return render_template("home.html", logged_in=logged_in(), cars=get_cars_from_user(session.get('email', logged_user.email)),
                            page_name="My Garage")
 
 
@@ -221,7 +221,7 @@ def add_car():
         return redirect('/garage')
     elif not logged_user:
         return redirect('/login')
-    return render_template("add_car.html", logged_in=logged_in(), cars=get_cars_from_user(session['email']),
+    return render_template("add_car.html", logged_in=logged_in(), cars=get_cars_from_user(session.get('email', logged_user.email)),
                            page_name="Add Car")
 
 
