@@ -209,7 +209,7 @@ def add_car():
             "price": price,
             "owner_exp": owner_exp,
             "user_images": [image],
-            "selling": selling,
+            "selling": selling == "Yes",
             "Model": db.collection("cars").document(make).collection("models").document(model),
             "history": [],
             "vin": vin
