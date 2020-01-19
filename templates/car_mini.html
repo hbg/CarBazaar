@@ -12,7 +12,9 @@
                 <div class="row justify-content-md-center">
                     <div class="col col-sm-6">
                         <h1 class="header-text">{{ make }} {{ model }}</h1>
-                        <h2 class="disabled">${{ details.price }} <span class="badge badge-secondary">{% if details.selling %}For Sale{% else %}Not For Sale{% endif %}</span></h2>
+                        <h2 class="disabled">${{ details.price }} <span
+                                class="badge badge-secondary">{% if details.selling %}For Sale{% else %}Not For
+                            Sale{% endif %}</span></h2>
                         <p>{{ details.owner_exp }}</p>
                     </div>
                 </div>
@@ -21,6 +23,24 @@
                         <a class="btn btn-dark full-width" href="/edit/{{ details.vin }}">Add to History</a>
                     </div>
                 </div>
+                <div class="row justify-content-md-center">
+                    <div class="col col-sm-6">
+                        <span class="header-subtext">History</span>
+                        <div class="row history-view justify-content-md-center">
+                            {% for item in history %}
+                                <div class="col col-sm-6 history-view-card">
+                                    <div class="card history-view-card">
+                                    <img class="card-img-top" src="{{ item.image }}" alt="Card image cap">
+                                    <div class="card-body">
+                                        <p class="card-text">{{ item.description }}</p>
+                                    </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

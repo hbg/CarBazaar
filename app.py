@@ -41,7 +41,7 @@ def retrieve_mini_post(username, uuid):
     pth = post_details['Model'].path
     make, model = get_mk_ml(pth)
 
-    return render_template("car_mini.html", details=post_details, make=make, model=model)
+    return render_template("car_mini.html", details=post_details, make=make, model=model, history=post_details['history'])
 
 
 @app.route('/register', methods=['GET', 'POST'])
