@@ -4,12 +4,9 @@
         <span class="header-text">Garage <a class="btn btn-dark" type="submit" href="/add_car">Add Car</a></span>
         <div class="row">
             {% for car in cars %}
-                <div class="col col-sm-4 equal" style="margin-bottom: 20px">
-                    <div class="card">
-                        <div class="card-header">
-                            {{ car.user }}
-                        </div>
-                        <img class="card-img-top" alt="Card image cap" src="{{ car.images.0 }}">
+                <div class="col col-sm-4" style="margin-bottom: 20px">
+                    <div class="card card-main">
+                        <img class="card-img-top card-img-top-main" alt="Card image cap" src="{{ car.images.0 }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ car.make }} {{ car.model }}</h5>
                             <a href="/users/{{ car.user }}/{{ car.id }}" class="full-width btn btn-dark">→</a>

@@ -68,10 +68,20 @@
     margin-top: 16px;
 }
 
-.equal {
-  display: flex;
-  display: -webkit-flex;
-  flex-wrap: wrap;
+.card-main {
+    border-radius: 32px;
+    border: 4px solid black;
+    box-shadow: 8px 8px 0 #f1f1f1;
+    transition: 250ms ease-in-out all;
+}
+
+.card-main:hover {
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #f1f1f1;
+}
+
+.card-img-top-main {
+    border-radius: 32px;
 }
 
 #car-container {
