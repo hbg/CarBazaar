@@ -54,9 +54,10 @@ def register():
                 email_verified=False,
                 password=request.form.get("email"),
                 disabled=False)
+            logged_user = user
+            return redirect('/login')
         except:
             return render_template("register.html", logged_in=logged_in(), message="Email is already in use.")
-        logged_user = user
     return render_template("register.html", logged_in=logged_in(), page_name="Register")
 
 
@@ -198,6 +199,8 @@ def add_car():
         doc = db.collection("cars").document(make).collection("models").document(model).set({
             "site_images": []
         }, merge=True)
+        print(logged_user.email)
+        db.collection("users").document(logged_user.email).set({})
         db.collection("users").document(logged_user.email).collection("garage").document(str(uuid4())).set({
             "price": price,
             "owner_exp": owner_exp,
@@ -228,16 +231,27 @@ def edit(vin):
         for user_id in user_ids:
             garage = db.collection(u'users').document(user_id).collection('garage').stream()
             for car in garage:
-                if car.to_dict().get('vin') == vin and car_id == '':
+                print(car_id, vin_user)
+
+                if str(car.to_dict()['vin']) == str(vin) and car_id == '':
                     car_id = car.id
                     vin_user = user_id
                     break
-        db.collection('users').document(vin_user).collection('garage').document(car_id).update({
-            'history': firestore.ArrayUnion([{
-                "image": img,
-                "description": description
-            }])
-        })
+        try:
+            db.collection('users').document(vin_user).collection('garage').document(car_id).update({
+                'history': firestore.ArrayUnion([{
+                    "image": img,
+                    "description": description
+                }])
+            })
+        except:
+            print(vin_user, car_id)
+            db.collection('users').document(vin_user).collection('garage').document(car_id).set({
+                u"history": [{
+                    u"image": img,
+                    u"description": description
+                }]
+            }, merge=True)
         return redirect('/')
     return render_template("edit_vin.html", vin=vin)
 
