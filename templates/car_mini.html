@@ -6,14 +6,14 @@
             <div class="space-container container">
                 <div class="row justify-content-md-center">
                     <div class="col col-sm-6">
-                        <img src="{{ details.user_images.0 }}" width="100%"/>
+                        <img src="{{ details.user_images.0 }}" width="100%" class="rounded"/>
                     </div>
                 </div>
                 <div class="row justify-content-md-center">
                     <div class="col col-sm-6">
                         <h1 class="header-text">{{ make }} {{ model }}</h1>
                         <h2 class="disabled">${{ details.price }} <span
-                                class="badge badge-secondary">{% if details.selling %}For Sale{% else %}Not For
+                                class="badge {% if details.selling %}badge-success{% else %}badge-danger{% endif %}">{% if details.selling %}For Sale{% else %}Not For
                             Sale{% endif %}</span></h2>
                         <p>{{ details.owner_exp }}</p>
                     </div>
@@ -30,10 +30,10 @@
                             {% for item in history %}
                                 <div class="col col-sm-6 history-view-card">
                                     <div class="card card-white-border">
-                                    <img class="card-img-top" src="{{ item.image }}" alt="Card image cap">
-                                    <div class="card-body">
-                                        <p class="card-text">{{ item.description }}</p>
-                                    </div>
+                                        <img class="card-img-top" src="{{ item.image }}" alt="Card image cap">
+                                        <div class="card-body">
+                                            <p class="card-text">{{ item.description }}</p>
+                                        </div>
                                     </div>
                                 </div>
                             {% endfor %}

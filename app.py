@@ -41,7 +41,8 @@ def retrieve_mini_post(username, uuid):
     pth = post_details['Model'].path
     make, model = get_mk_ml(pth)
 
-    return render_template("car_mini.html", details=post_details, make=make, model=model, history=post_details['history'], logged_in=logged_in(), page_name="Car")
+    return render_template("car_mini.html", details=post_details, make=make, model=model,
+                           history=post_details['history'], logged_in=logged_in(), page_name="Car")
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -85,7 +86,7 @@ def get_cars_from_user(email):
     bucket = storage_client.bucket('carbazaar-32cea.appspot.com')
 
     for car in garage:
-        uuid  = car.id
+        uuid = car.id
         print(car.to_dict()['user_images'])
         images = []
         for image in car.to_dict()['user_images']:
@@ -112,7 +113,8 @@ def get_cars_from_user(email):
             "model": ml,
             "images": images,
             "history": car.to_dict()['history'],
-            "id": uuid
+            "id": uuid,
+            "price": car.to_dict()['price']
         })
     return cars
 
@@ -149,14 +151,15 @@ def search():
             else:
                 thumbnail = image
                 print(image)
-            if mk == str(make_g) and ml == str(model_g) and car.to_dict().get('selling'):
+            if make_g.upper() in mk.upper() and model_g.upper() in ml.upper() and car.to_dict().get('selling'):
                 cars.append({
                     'user': user_id,
                     "make": mk,
                     "model": ml,
                     "image": thumbnail,
                     "history": car.to_dict()['history'],
-                    "id": uuid
+                    "id": uuid,
+                    "price": car.to_dict()['price']
                 })
         print(cars)
         return render_template("search_results.html", cars=cars, logged_in=logged_in(), page_name="Explore")
@@ -181,7 +184,8 @@ def garage():
     if logged_user is None:
         return redirect('/login')
 
-    return render_template("home.html", logged_in=logged_in(), cars=get_cars_from_user(logged_user.email), page_name="My Garage")
+    return render_template("home.html", logged_in=logged_in(), cars=get_cars_from_user(logged_user.email),
+                           page_name="My Garage")
 
 
 @app.route('/add_car', methods=['GET', 'POST'])
@@ -213,7 +217,8 @@ def add_car():
         return redirect('/garage')
     elif not logged_user:
         return redirect('/login')
-    return render_template("add_car.html", logged_in=logged_in(), cars=get_cars_from_user(logged_user.email), page_name="Add Car")
+    return render_template("add_car.html", logged_in=logged_in(), cars=get_cars_from_user(logged_user.email),
+                           page_name="Add Car")
 
 
 @app.route('/edit/<vin>', methods=['GET', 'POST'])
@@ -254,7 +259,6 @@ def edit(vin):
             }, merge=True)
         return redirect('/')
     return render_template("edit_vin.html", vin=vin, logged_in=logged_in(), page_name="Edit History")
-
 
 
 if __name__ == '__main__':

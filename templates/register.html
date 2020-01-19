@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="space-container container">
-    <span class="header-text">Register</span>
-    {% if message %}
+        <span class="header-text">Register</span>
+        {% if message %}
             <div class="alert alert-danger" role="alert">
-                {{message}}
+                {{ message }}
             </div>
         {% endif %}
         <form method="post" action="/register">

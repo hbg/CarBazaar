@@ -2,13 +2,13 @@
 {% block content %}
     <div class="space-container container">
         <span class="header-text">Add to Car History</span>
-    {% if message %}
+        {% if message %}
             <div class="alert alert-danger" role="alert">
-                {{message}}
+                {{ message }}
             </div>
         {% endif %}
         <form method="post" action="/edit/{{ vin }}">
-             <div class="form-group">
+            <div class="form-group">
                 <label for="image">Image</label>
                 <div class="col-sm-12">
                     <input type="text" class="form-control" id="image" name="image">

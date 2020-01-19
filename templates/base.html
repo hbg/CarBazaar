@@ -26,7 +26,8 @@
                 </li>
             {% endif %}
             <li class="nav-item">
-                <a class="btn btn-dark nav-link" href="/{% if logged_in %}logout{% else %}login{% endif %}">{% if logged_in %}Logout{% else %}Login{% endif %}</a>
+                <a class="btn btn-dark nav-link" href="/{% if logged_in %}logout{% else %}login{% endif %}">
+                    {% if logged_in %}Logout{% else %}Login{% endif %}</a>
             </li>
         </ul>
     </div>

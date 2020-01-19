@@ -15,8 +15,9 @@
                         -->
                         <img class="card-img-top card-img-top-main" alt="Card image cap" src="{{ car.image }}">
                         <div class="card-body">
-                            <h5 class="card-title">{{ car.make }} {{ car.model }}</h5>
-                            <a href="/users/{{ car.user }}/{{ car.id }}" class="full-width btn btn-dark">→</a>
+                            <h5 class="card-title">{{ car.make }} {{ car.model }} <span
+                                class="badge badge-success">${{car.price}}</span></h5>
+                            <a href="/users/{{ car.user }}/{{ car.id }}" class="full-width btn btn-dark">More Info →</a>
                         </div>
                     </div>
                 </div>
