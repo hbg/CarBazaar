@@ -12,7 +12,7 @@ from gcloud import storage
 from firebase_admin import firestore, auth
 
 app = Flask(__name__)
-Scss(app)
+Scss(app, static_dir='static')
 
 logged_user = None
 cred = credentials.Certificate('carbazaar-32cea-ec7ddc537cbe.json')
@@ -52,7 +52,8 @@ def register():
         except:
             return render_template("register.html", logged_in=logged_in(), message="Email is already in use.")
         logged_user = user
-    return render_template("register.html", logged_in=logged_in())
+    return render_template("register.html", logged_in=logged_in(), page_name="Register")
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -68,7 +69,7 @@ def login():
             print(e)
             "Incorrect password"
             return render_template("login.html", message="Invalid email or password.")
-    return render_template("login.html", logged_in=logged_in())
+    return render_template("login.html", logged_in=logged_in(), page_name="Log In")
 
 
 def get_cars_from_user(email):
@@ -148,12 +149,12 @@ def search():
                     "history": car.to_dict()['History']
                 })
         print(cars)
-        return render_template("search_results.html", cars=cars, logged_in=logged_in())
+        return render_template("search_results.html", cars=cars, logged_in=logged_in(), page_name="Explore")
 
 
 @app.route('/')
 def home():
-    return render_template("index.html", logged_in=logged_in())
+    return render_template("index.html", logged_in=logged_in(), page_name="Home")
 
 
 @app.route('/logout')
@@ -170,7 +171,7 @@ def garage():
     if logged_user is None:
         return redirect('/login')
 
-    return render_template("home.html", logged_in=logged_in(), cars=get_cars_from_user(logged_user.email))
+    return render_template("home.html", logged_in=logged_in(), cars=get_cars_from_user(logged_user.email), page_name="My Garage")
 
 
 @app.route('/add_car', methods=['GET', 'POST'])
@@ -199,7 +200,7 @@ def add_car():
         return redirect('/garage')
     elif not logged_user:
         return redirect('/login')
-    return render_template("add_car.html", logged_in=logged_in(), cars=get_cars_from_user(logged_user.email))
+    return render_template("add_car.html", logged_in=logged_in(), cars=get_cars_from_user(logged_user.email), page_name="Add Car")
 
 
 if __name__ == '__main__':
