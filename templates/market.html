@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="space-container container">
+    <div class="row">
+        {% for car in cars %}
+            <div class="col col-sm-4">
+            <div class="card">
+              <img class="card-img-top" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">{{car.make}}</h5>
+                <p class="card-text">{{ car.model }}</p> {{ car.user }}
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}
