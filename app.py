@@ -110,7 +110,7 @@ def get_cars_from_user(email):
             "make": mk,
             "model": ml,
             "images": images,
-            "history": car.to_dict()['History'],
+            "history": car.to_dict()['history'],
             "id": uuid
         })
     return cars
@@ -154,7 +154,7 @@ def search():
                     "make": mk,
                     "model": ml,
                     "image": thumbnail,
-                    "history": car.to_dict()['History'],
+                    "history": car.to_dict()['history'],
                     "id": uuid
                 })
         print(cars)
@@ -190,7 +190,7 @@ def add_car():
     if request.method == 'POST' and logged_in():
         make = request.form.get("make")
         model = request.form.get("model")
-        year = request.form.get("year")
+        vin = request.form.get("vin")
         owner_exp = request.form.get("owner_experience")
         price = request.form.get("price")
         image = request.form.get("image")
@@ -204,12 +204,43 @@ def add_car():
             "user_images": [image],
             "selling": selling,
             "Model": db.collection("cars").document(make).collection("models").document(model),
-            "history": []
+            "history": [],
+            "vin": vin
         })
         return redirect('/garage')
     elif not logged_user:
         return redirect('/login')
     return render_template("add_car.html", logged_in=logged_in(), cars=get_cars_from_user(logged_user.email), page_name="Add Car")
+
+
+@app.route('/edit/<vin>', methods=['GET', 'POST'])
+def edit(vin):
+    if request.method == "POST":
+        description = request.form.get("description")
+        img = request.form.get("image")
+        db = firestore.client()
+        users = db.collection(u'users').stream()
+        vin_user = ''
+        car_id = ''
+        user_ids = []
+        for user in users:
+            user_ids.append(user.id)
+        for user_id in user_ids:
+            garage = db.collection(u'users').document(user_id).collection('garage').stream()
+            for car in garage:
+                if car.to_dict().get('vin') == vin and car_id == '':
+                    car_id = car.id
+                    vin_user = user_id
+                    break
+        db.collection('users').document(vin_user).collection('garage').document(car_id).update({
+            'history': firestore.ArrayUnion([{
+                "image": img,
+                "description": description
+            }])
+        })
+        return redirect('/')
+    return render_template("edit_vin.html", vin=vin)
+
 
 
 if __name__ == '__main__':
