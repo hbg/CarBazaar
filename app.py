@@ -28,7 +28,7 @@ auth_request = requests.Request()
 
 
 def logged_in():
-    return session.get('email') is not None
+    return session.get('email') is not None or logged_user is not None
 
 
 def get_mk_ml(s):
@@ -177,6 +177,8 @@ def home():
 
 @app.route('/logout')
 def logout():
+    global logged_user
+    logged_user = None
     session.clear()
     return redirect('/')
 
