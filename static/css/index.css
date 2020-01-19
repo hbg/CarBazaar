@@ -4,6 +4,7 @@
     font-weight: 600 !important;
     background: #47515b !important;
     color: white !important;
+    height: auto !important;
 }
 
 .text-white {
@@ -12,7 +13,6 @@
 
 .mini-card {
     border-radius: 32px;
-    height: calc(100vh - 200px) !important;
 }
 
 .full-width {

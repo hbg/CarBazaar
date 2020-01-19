@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container space-container">
+
         <div class="card mini-card">
-            <div class="row">
-                <div class="col col-sm-9">
-                    <img src="{{ details.user_images.0 }}" width="100%" />
+            <div class="space-container container">
+                <div class="row">
+                    <div class="col col-sm-12">
+                        <img src="{{ details.user_images.0 }}" width="100%"/>
+                    </div>
                 </div>
-                <div class="col col-sm-3">
-                    <span class="header-text">{{ details.owner_exp }}</span>
-                    <span class="header-text disabled">${{ details.price }}</span>
+                <div class="row">
+                    <div class="col col-sm-12">
+                        <h1 class="header-text">{{ make }} {{ model }}</h1>
+                        <h2 class="disabled">${{ details.price }}</h2>
+                    </div>
                 </div>
             </div>
         </div>

@@ -22,10 +22,7 @@ storage_client = storage.Client.from_service_account_json('carbazaar-32cea-ec7dd
 
 auth_request = requests.Request()
 VINS = [
-    {
-        "VIN"
 
-    }
 ]
 
 
@@ -36,16 +33,14 @@ def logged_in():
 def get_mk_ml(s):
     return s.split('cars/')[1].split('/models/')[0], s.split('cars/')[1].split('/models/')[1]
 
-def retrieve_document_reference(path):
-    ''
-    return ''
-
 @app.route('/users/<username>/<uuid>')
 def retrieve_mini_post(username, uuid):
     db = firestore.client()
     pst = db.collection("users").document(username).collection("garage").document(uuid).get()
     post_details = pst.to_dict()
-    return render_template("car_mini.html", details=post_details)
+    pth = post_details['Model'].path
+    make, model = get_mk_ml(pth)
+    return render_template("car_mini.html", details=post_details, make=make, model=model)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -88,7 +83,7 @@ def get_cars_from_user(email):
     bucket = storage_client.bucket('carbazaar-32cea.appspot.com')
 
     for car in garage:
-        uuid  = car.parent()
+        uuid  = car.id
         print(car.to_dict()['user_images'])
         images = []
         for image in car.to_dict()['user_images']:
