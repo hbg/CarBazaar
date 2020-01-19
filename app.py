@@ -10,12 +10,12 @@ import redis, os
 from firebase_admin import firestore, auth
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '9281anq2Z'
+app.secret_key = '9281anq2Z'
 redis_url = os.getenv('REDISTOGO_URL', 'redis://localhost:6379')
 redis = redis.from_url(redis_url)
 SESSION_REDIS = redis
 app.config.from_object(__name__)
-Session(app)
+sess = Session()
 logged_user = None
 cred = credentials.Certificate('carbazaar-32cea-ec7ddc537cbe.json')
 fbapp = firebase_admin.initialize_app(cred, {
@@ -28,7 +28,7 @@ auth_request = requests.Request()
 
 
 def logged_in():
-    return session.get('email') is not None or logged_user is not None
+    return session.get('email') is not None
 
 
 def get_mk_ml(s):
@@ -266,4 +266,8 @@ def edit(vin):
 
 
 if __name__ == '__main__':
+    app.secret_key = 'super secret key'
+    app.config['SESSION_TYPE'] = 'filesystem'
+
+    sess.init_app(app)
     app.run()
