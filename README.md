@@ -12,3 +12,5 @@ We struggled with setting up credentials for Firebase Storage and syncing the im
 We learned a lot about integrating Firebase' databases with flask-based websites, using Python. We also learned about user authentication, also using Firebase, and storing and retrieving user-specific data.
 ## The big picture
 There are millions of people in the world that value cars as more than just a tool. Whether the car is a hypercar, daily driver, or a classic, consumers can appreciate a car's backstory. Imagine you have to pick between a 2015 Honda Civic EX that has very minimal information or the same car but with a picture of it at the Grand Canyon, interesting stories, and more background information. You would definitely pick the car with more information about it. Even if a person views a car as a tool, they can rest assured that the previous owner took care of their vehicle. 
+## Future features
+Some features we would like to implement in the future are an easier method of viewing user' garages and creating an Android application. We will also improve the UI aesthetic of the application, and place an emphasis on the flow between pages.
