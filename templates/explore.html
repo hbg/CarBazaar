@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="space-container container">
+    <span class="header-text">Explore</span>
+        <div class="row">
+
+            {% for car in cars %}
+                <div class="col col-sm-4">
+                    <div class="card card-main">
+                        <!--
+                        <div class="card-header">
+                            {#  car.user #}
+                        </div>
+                        -->
+                        <img class="card-img-top card-img-top-main" alt="Card image cap" src="{{ car.image }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ car.make }} {{ car.model }} <span
+                                class="badge badge-success">${{car.price}}</span></h5>
+                            <a href="/users/{{ car.user }}/{{ car.id }}" class="full-width btn btn-dark">More Info →</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

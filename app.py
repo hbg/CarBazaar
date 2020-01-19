@@ -28,7 +28,10 @@ auth_request = requests.Request()
 
 
 def logged_in():
-    return session.get('email') is not None
+    try:
+        return session.get('email') is not None and logged_user is not None
+    except:
+        return False
 
 
 def get_mk_ml(s):
@@ -119,7 +122,7 @@ def get_cars_from_user(email):
             "history": car.to_dict()['history'],
             "id": uuid,
             "price": car.to_dict()['price'],
-            "selling": car.to_dict()['selling'] == "Yes"
+            "selling": car.to_dict()['selling']
         })
     return cars
 
@@ -129,7 +132,6 @@ def search():
     db = firestore.client()
     make_g = request.form.get('make')
     model_g = request.form.get('model')
-    year_g = request.form.get('year')
     users = db.collection(u'users').stream()
     user_ids = []
     cars = []
@@ -141,22 +143,21 @@ def search():
         for car in garage:
             images = []
             path = car.to_dict()['Model'].path
+            print(path)
             mk, ml = get_mk_ml(str(path))
-            print(mk, ml, make_g, model_g)
             mk = str(mk)
             ml = str(ml)
             image = car.to_dict()['user_images'][0]
             uuid = car.id
             if 'gs://' in image:
                 image = image.split('gs://carbazaar-32cea.appspot.com/')[1]
-                print(image)
                 images.extend(bucket.blob(image).generate_signed_url(datetime.timedelta(seconds=300)))
                 thumbnail = ''.join(images)
                 print(thumbnail)
             else:
                 thumbnail = image
-                print(image)
-            if make_g.upper() in mk.upper() and model_g.upper() in ml.upper() and car.to_dict().get('selling'):
+            print(mk, ml)
+            if make_g.upper() in mk.upper() and model_g.upper() in ml.upper():
                 cars.append({
                     'user': user_id,
                     "make": mk,
@@ -164,9 +165,9 @@ def search():
                     "image": thumbnail,
                     "history": car.to_dict()['history'],
                     "id": uuid,
-                    "price": car.to_dict()['price']
+                    "price": car.to_dict()['price'],
+                    "selling": True
                 })
-        print(cars)
         return render_template("search_results.html", cars=cars, logged_in=logged_in(), page_name="Explore")
 
 
@@ -185,7 +186,6 @@ def logout():
 
 @app.route('/garage')
 def garage():
-    # Use the application default credentials
     if not logged_in():
         return redirect('/login')
 
@@ -208,12 +208,15 @@ def add_car():
         doc = db.collection("cars").document(make).collection("models").document(model).set({
             "site_images": []
         }, merge=True)
+        uuid = str(uuid4())
         db.collection("users").document(logged_user.email).set({})
-        db.collection("users").document(logged_user.email).collection("garage").document(str(uuid4())).set({
+        db.collection("users").document(logged_user.email).collection("garage").document(uuid).set({})
+        print(selling)
+        db.collection("users").document(logged_user.email).collection("garage").document(uuid).set({
             "price": price,
             "owner_exp": owner_exp,
             "user_images": [image],
-            "selling": selling == "Yes",
+            "selling": selling,
             "Model": db.collection("cars").document(make).collection("models").document(model),
             "history": [],
             "vin": vin
@@ -264,6 +267,46 @@ def edit(vin):
         return redirect('/')
     return render_template("edit_vin.html", vin=vin, logged_in=logged_in(), page_name="Edit History")
 
+@app.route('/explore', methods=['GET'])
+def explore():
+    db = firestore.client()
+    users = db.collection(u'users').stream()
+    user_ids = []
+    cars = []
+    bucket = storage_client.bucket('carbazaar-32cea.appspot.com')
+    for user in users:
+        user_ids.append(user.id)
+    for user_id in user_ids:
+        garage = db.collection(u'users').document(user_id).collection('garage').stream()
+        for car in garage:
+            images = []
+            path = car.to_dict()['Model'].path
+            mk, ml = get_mk_ml(str(path))
+            mk = str(mk)
+            ml = str(ml)
+            image = car.to_dict()['user_images'][0]
+            uuid = car.id
+            if 'gs://' in image:
+                image = image.split('gs://carbazaar-32cea.appspot.com/')[1]
+                print(image)
+                images.extend(bucket.blob(image).generate_signed_url(datetime.timedelta(seconds=300)))
+                thumbnail = ''.join(images)
+                print(thumbnail)
+            else:
+                thumbnail = image
+                print(image)
+            cars.append({
+                    'user': user_id,
+                    "make": mk,
+                    "model": ml,
+                    "image": thumbnail,
+                    "history": car.to_dict()['history'],
+                    "id": uuid,
+                    "price": car.to_dict()['price'],
+                    "selling": car.to_dict()['selling']
+            })
+            print(cars)
+        return render_template("explore.html", cars=cars, logged_in=logged_in(), page_name="Explore")
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
