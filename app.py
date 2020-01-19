@@ -1,16 +1,16 @@
-from flask import Flask, render_template, request, redirect
-from flask_scss import Scss
+from flask import Flask, render_template, request, redirect, session
 import firebase_admin
 import datetime
 from uuid import uuid4
 from google.auth.transport import requests
 from firebase_admin import credentials
 from gcloud import storage
+from flask_session import Session
 
 from firebase_admin import firestore, auth
 
 app = Flask(__name__)
-
+app.config['SECRET_KEY'] = '9281anq2Z'
 logged_user = None
 cred = credentials.Certificate('carbazaar-32cea-ec7ddc537cbe.json')
 fbapp = firebase_admin.initialize_app(cred, {
@@ -26,7 +26,7 @@ VINS = [
 
 
 def logged_in():
-    return logged_user is not None
+    return session.get('email') is not None
 
 
 def get_mk_ml(s):
@@ -55,6 +55,7 @@ def register():
                 email_verified=False,
                 password=request.form.get("email"),
                 disabled=False)
+            session['email'] = user.email
             logged_user = user
             return redirect('/login')
         except:
@@ -69,8 +70,9 @@ def login():
 
         try:
             user = auth.get_user_by_email(request.form['email'])
-            # assert request.form['password'] == user.password
+
             logged_user = user
+            session['email'] = user.email
             return redirect('/garage')
         except Exception as e:
             print(e)
@@ -172,19 +174,17 @@ def home():
 
 @app.route('/logout')
 def logout():
-    global logged_user
-    logged_user = None
+    session.clear()
     return redirect('/')
 
 
 @app.route('/garage')
 def garage():
-    global logged_user
     # Use the application default credentials
-    if logged_user is None:
+    if not logged_in():
         return redirect('/login')
 
-    return render_template("home.html", logged_in=logged_in(), cars=get_cars_from_user(logged_user.email),
+    return render_template("home.html", logged_in=logged_in(), cars=get_cars_from_user(session['email']),
                            page_name="My Garage")
 
 
@@ -203,7 +203,6 @@ def add_car():
         doc = db.collection("cars").document(make).collection("models").document(model).set({
             "site_images": []
         }, merge=True)
-        print(logged_user.email)
         db.collection("users").document(logged_user.email).set({})
         db.collection("users").document(logged_user.email).collection("garage").document(str(uuid4())).set({
             "price": price,
@@ -217,7 +216,7 @@ def add_car():
         return redirect('/garage')
     elif not logged_user:
         return redirect('/login')
-    return render_template("add_car.html", logged_in=logged_in(), cars=get_cars_from_user(logged_user.email),
+    return render_template("add_car.html", logged_in=logged_in(), cars=get_cars_from_user(session['email']),
                            page_name="Add Car")
 
 
@@ -238,8 +237,6 @@ def edit(vin):
         for user_id in user_ids:
             garage = db.collection(u'users').document(user_id).collection('garage').stream()
             for car in garage:
-                print(car_id, vin_user)
-
                 if str(car.to_dict()['vin']) == str(vin) and car_id == '':
                     car_id = car.id
                     vin_user = user_id
