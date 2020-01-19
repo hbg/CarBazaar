@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request, redirect
-from google.cloud.storage.blob import Blob
 from flask_scss import Scss
 import firebase_admin
 import datetime
 from uuid import uuid4
-from google.auth import compute_engine
 from google.auth.transport import requests
 from firebase_admin import credentials
 from gcloud import storage
@@ -90,6 +88,7 @@ def get_cars_from_user(email):
     bucket = storage_client.bucket('carbazaar-32cea.appspot.com')
 
     for car in garage:
+        uuid  = car.parent()
         print(car.to_dict()['user_images'])
         images = []
         for image in car.to_dict()['user_images']:
@@ -115,7 +114,8 @@ def get_cars_from_user(email):
             "make": mk,
             "model": ml,
             "images": images,
-            "history": car.to_dict()['History']
+            "history": car.to_dict()['History'],
+            "id": uuid
         })
     return cars
 

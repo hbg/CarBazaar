@@ -15,6 +15,10 @@
     height: calc(100vh - 200px) !important;
 }
 
+.full-width {
+    width: 100% !important;
+}
+
 .alert {
     border-radius: 16px;
     background: #ff4850;
